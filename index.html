@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="使用 100Hz 纯音缓解晕车症状。点击按钮生成 100Hz 正弦波音频，调节音量，享受科学支持的晕车缓解工具。">
+  <meta name="keywords" content="100Hz, 缓解晕车, 纯音, Web Audio API, 正弦波, 80dB">
+  <meta name="author" content="Your Name">
+  <title>100Hz 纯音缓解晕车工具</title>
+  <!-- 添加 emoji 表情作为 favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔊</text></svg>">
+  <style>
+    /* 全局样式 */
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+      color: #333;
+    }
+    header {
+      background: #0078d7;
+      color: #fff;
+      padding: 20px 10px;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+    nav {
+      background: #005bb5;
+      padding: 10px;
+      text-align: center;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 1rem;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    main {
+      padding: 20px;
+      max-width: 800px;
+      margin: 20px auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    button {
+      background: #0078d7;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px 5px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    button:hover {
+      background: #005bb5;
+    }
+    input[type="range"] {
+      width: 100%;
+      margin: 10px 0;
+    }
+    footer {
+      text-align: center;
+      padding: 10px;
+      background: #333;
+      color: #fff;
+      margin-top: 20px;
+    }
+    h2 {
+      color: #0078d7;
+    }
+    article {
+      margin-bottom: 20px;
+    }
+    p {
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>100Hz 纯音缓解晕车工具</h1>
+    <p><a href="https://www.jstage.jst.go.jp/article/ehpm/30/0/30_24-00247/_html/-char/en" target="_blank" rel="noopener noreferrer">科学研究表明</a>，乘车前，双耳暴漏在 100Hz, 60 - 65 dbA 的纯音环境下，持续 1 分钟以上可以有效缓解晕车症状（效果持续约 2 个小时）。点击按钮播放音频，立即体验！</p>
+  </header>
+  <nav>
+    <a href="#play">播放工具</a>
+    <a href="#faq">FAQ</a>
+    <a href="#about">关于我们</a>
+  </nav>
+  <main>
+    <section id="play">
+      <button id="playButton">播放 100Hz 音频</button>
+      <button id="stopButton">停止播放</button>
+      <p>
+        <label for="volumeControl">调节音量 (dB)：</label>
+        <input id="volumeControl" type="range" min="0" max="100" value="80">
+      </p>
+      <p>播放时间：<span id="timer">00:00</span></p>
+    </section>
+    <section id="faq">
+      <h2>FAQ</h2>
+      <article>
+        <h3>如何使用 100Hz 纯音缓解晕车工具</h3>
+        <p>点击“播放 100Hz 音频”按钮播放 100Hz 的纯音，使用滑块调节音量，点击“停止播放”按钮停止播放。</p>
+      </article>
+      <article>
+        <h3>我应该设置多大的音量？</h3>
+        <p>60 -65 dbA, 大致相当于以下生活场景中的音量大小：
+        </p>
+        <pre>
+          60 dBA（相当于）​​
+          ​​正常交谈声​​（两人相距1米聊天）
+          ​​安静的办公室​​（键盘打字、翻文件的声音）
+          ​​冰箱运行声​​（站在旁边听到的嗡嗡声）
+          ​​小雨落在屋顶​​（持续的沙沙声）
+          ​​汽车低速行驶（40km/h）​​（10米外的胎噪声）
+          ​​65 dBA（相当于）​​
+          ​​洗衣机运转​​（站在旁边时的噪音）
+          ​​空调外机​​（正常运行时1米内的声音）
+          ​​电风扇中档风速​​（呼呼的风声）
+          ​​咖啡厅背景音​​（多人低声交谈的环境）
+          ​​电视机中等音量​​（家庭观影时的音量）
+        </pre>
+        
+      </article>
+      <article>
+        <h3>100Hz 纯音缓解晕车工具如何收费？</h3>
+        <p>当然是免费！本工具完全免费供您使用。</p>
+      </article>
+      <article>
+        <h3>100Hz 纯音缓解晕车工具的工作原理？</h3>
+        <p>本工具使用 Web Audio API 生成 100Hz 的正弦波，通过调节增益节点（GainNode）控制音量。</p>
+      </article>
+      <article>
+        <h3>100Hz 纯音缓解晕车工具的使用场景？</h3>
+        <p>根据名古屋大学的研究，暴露在 100Hz 80 分贝的纯音环境下超过 1 分钟，可以有效缓解晕车症状。</p>
+      </article>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 <a href="https://1link.fun" target="_blank">1Link.Fun</a>. 本工具基于<a href="https://www.jstage.jst.go.jp/article/ehpm/30/0/30_24-00247/_html/-char/en" target="_blank" rel="noopener noreferrer">科学研究</a>，帮助您缓解晕车症状。</p>
+  </footer>
+
+  <script>
+    let audioContext;
+    let oscillator;
+    let gainNode;
+    let timerInterval;
+    let elapsedTime = 0;
+
+    function formatTime(seconds) {
+      const minutes = Math.floor(seconds / 60).toString().padStart(2, '0');
+      const secs = (seconds % 60).toString().padStart(2, '0');
+      return `${minutes}:${secs}`;
+    }
+
+    function startTimer() {
+      elapsedTime = 0;
+      document.getElementById('timer').textContent = formatTime(elapsedTime);
+      timerInterval = setInterval(() => {
+        elapsedTime++;
+        document.getElementById('timer').textContent = formatTime(elapsedTime);
+      }, 1000);
+    }
+
+    function stopTimer() {
+      clearInterval(timerInterval);
+      document.getElementById('timer').textContent = "00:00";
+    }
+
+    document.getElementById('playButton').addEventListener('click', () => {
+      if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        oscillator = audioContext.createOscillator();
+        gainNode = audioContext.createGain();
+
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(100, audioContext.currentTime); // 100Hz
+        const initialGain = 0.1; // Corresponds to ~80dB
+        gainNode.gain.setValueAtTime(initialGain, audioContext.currentTime);
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        oscillator.start();
+
+        // Update gain when slider changes
+        document.getElementById('volumeControl').addEventListener('input', (event) => {
+          const volume = event.target.value;
+          const gainValue = volume / 800; // Scale to appropriate gain value
+          gainNode.gain.setValueAtTime(gainValue, audioContext.currentTime);
+        });
+
+        // Start the timer
+        startTimer();
+      }
+    });
+
+    document.getElementById('stopButton').addEventListener('click', () => {
+      if (oscillator) {
+        oscillator.stop();
+        oscillator.disconnect();
+        gainNode.disconnect();
+        audioContext.close();
+
+        audioContext = null;
+        oscillator = null;
+        gainNode = null;
+
+        // Stop and reset the timer
+        stopTimer();
+      }
+    });
+  </script>
+</body>
+</html>
